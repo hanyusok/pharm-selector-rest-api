@@ -1,7 +1,7 @@
 import requests
 
 # Kakao Local API requires the REST API Key. Using the JavaScript Key here will cause a 401 Client Error.
-KAKAO_REST_API_KEY = "80f26a55a496db9a8320511b82d02f63
+KAKAO_REST_API_KEY = "80f26a55a496db9a8320511b82d02f63"
 
 def geocode_address(address: str):
     """
