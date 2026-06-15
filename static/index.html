@@ -32,9 +32,13 @@
             </div>
 
             <form id="search-form" class="search-form">
-                <input type="text" id="search-input" placeholder="Browse all pharmacies" autocomplete="off">
+                <div class="input-group">
+                    <label for="search-input" class="search-label">Search keywords (name, address, or location)</label>
+                    <input type="text" id="search-input" placeholder="Browse all pharmacies" autocomplete="off">
+                </div>
                 <button type="submit" class="primary-btn" aria-label="Search pharmacies">
-                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <span class="btn-text">Search</span>
                 </button>
             </form>
 
@@ -47,7 +51,7 @@
                     <h2>Pharmacy list</h2>
                     <p class="muted">Results update in the same view as the filters.</p>
                 </div>
-                <span class="pill">One-panel layout</span>
+                <span class="pill" id="results-count">0 pharmacies found</span>
             </div>
             <div class="results-container" id="results-list"></div>
         </section>

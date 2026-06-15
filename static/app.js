@@ -30,6 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderPharmacies(pharmacies) {
         resultsList.innerHTML = '';
 
+        const countEl = document.getElementById('results-count');
+        if (countEl) {
+            countEl.textContent = `${pharmacies.length} pharmacies found`;
+        }
+
         if (!pharmacies.length) {
             resultsList.innerHTML = '<div class="empty-state">No pharmacies matched this request.</div>';
             return;
@@ -55,14 +60,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="pharmacy-details">
                     <div class="detail-row">
                         <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        <span class="detail-label">Phone:</span>
                         <span>${phone}</span>
                     </div>
                     <div class="detail-row">
                         <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                        <span class="detail-label">Fax:</span>
                         <span id="fax-display-${pharm.id}">${fax}</span>
+                        <button class="edit-fax-btn" data-id="${pharm.id}" title="Update fax number" aria-label="Update fax number">
+                            <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
                     </div>
                 </div>
-                <div class="fax-section">
+                <div class="fax-section" id="fax-section-${pharm.id}">
                     <div class="fax-help">Help others by updating the fax number:</div>
                     <form class="fax-form" data-id="${pharm.id}">
                         <input type="text" placeholder="e.g. 02-1234-5678" required>
@@ -72,6 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             resultsList.appendChild(card);
+        });
+
+        document.querySelectorAll('.edit-fax-btn').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.dataset.id;
+                const section = document.getElementById(`fax-section-${id}`);
+                if (section) {
+                    section.classList.toggle('expanded');
+                }
+            });
         });
 
         document.querySelectorAll('.fax-form').forEach((form) => {
@@ -102,8 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     btn.style.background = 'var(--success)';
                     btn.textContent = 'Done!';
                     setTimeout(() => {
-                        btn.style.background = 'var(--accent)';
+                        btn.style.background = '';
                         btn.textContent = origText;
+                        const section = document.getElementById(`fax-section-${id}`);
+                        if (section) {
+                            section.classList.remove('expanded');
+                        }
                     }, 1800);
                 } catch (error) {
                     btn.textContent = 'Failed';

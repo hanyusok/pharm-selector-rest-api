@@ -11,9 +11,10 @@ A modern, high-performance **FastAPI & SQLite** web application designed to help
   * If no address is found, automatically queries the **Keyword Search API** to resolve landmarks, subway stations, or building names (e.g., searching `"제일약국"` or `"강남역"`).
 * **Keyword Database Search**: Directly query the local SQLite database by pharmacy name or address snippet.
 * **Interactive Kakao Map**: Visualizes search results on a map with customized overlays, click-to-pan, list-syncing behavior, and boundary adjustments.
-* **Crowdsourced Fax Directory**: Users can submit and update missing or incorrect fax numbers for any pharmacy, which are saved instantly to the local database.
-* **Robust Fail-Safe UI**: The map area handles Kakao SDK loading failures (e.g. unregistered domain key errors) gracefully by displaying a warning message and setup instructions, while keeping search and list results fully functional.
-* **Premium Aesthetics**: Fully responsive dark mode interface designed with modern HSL CSS variables, smooth micro-animations, glassmorphism containers, and typography loaded via Google Fonts.
+* **Crowdsourced Fax Directory**: Users can submit and update missing or incorrect fax numbers for any pharmacy. To maintain a clean and compact interface, these forms are collapsible by default and expand on-demand via a toggle button next to each fax number.
+* **Organized & Labeled UI**: Improved accessibility and UX with prominent text labels for the search field, clearly labeled action buttons (e.g., "Search"), and detailed labeling ("Phone:", "Fax:") inside result cards.
+* **Dynamic Results Count**: A dynamic results counter updates in real-time as search results load, replacing developer placeholders with live counts (e.g., "100 pharmacies found").
+* **Premium & Responsive Design**: Fully responsive dark mode interface designed with modern HSL CSS variables, smooth micro-animations, glassmorphism containers, and typography loaded via Google Fonts. Search inputs and buttons automatically wrap on narrower viewports to prevent layout overflow.
 
 ---
 

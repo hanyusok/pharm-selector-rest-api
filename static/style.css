@@ -158,45 +158,68 @@ body {
 
 .search-form {
     display: flex;
-    gap: 8px;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.search-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-left: 2px;
 }
 
 .search-form input {
-    flex: 1;
-    padding: 10px 12px;
+    width: 100%;
+    height: 44px;
+    padding: 10px 14px;
     border-radius: 10px;
     border: 1px solid var(--border);
     background: rgba(15, 23, 42, 0.96);
     color: var(--text-primary);
     font-size: 14px;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .search-form input:focus {
     border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(139, 124, 255, 0.2);
 }
 
 .primary-btn {
     background: var(--accent);
-    color: #000;
+    color: #0b1220;
+    font-weight: 600;
+    font-size: 14px;
     border: none;
     border-radius: 10px;
-    width: 42px;
-    min-width: 42px;
+    height: 44px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.1s ease;
+    transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 .primary-btn:hover {
     background: var(--accent-hover);
+    box-shadow: 0 4px 12px rgba(139, 124, 255, 0.35);
 }
 
 .primary-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.97);
 }
 
 .status-message {
@@ -261,23 +284,66 @@ body {
 .pharmacy-details {
     font-size: 12px;
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .detail-row {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 4px;
 }
 
 .detail-row svg {
     color: var(--accent);
+    flex-shrink: 0;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--muted);
+    min-width: 40px;
+}
+
+.edit-fax-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    margin-left: 6px;
+    transition: all 0.2s ease;
+}
+
+.edit-fax-btn:hover {
+    color: var(--accent);
+    background: rgba(139, 124, 255, 0.12);
 }
 
 .fax-section {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.2s ease, 
+                margin-top 0.25s ease, 
+                padding-top 0.25s ease;
+}
+
+.fax-section.expanded {
     margin-top: 12px;
     padding-top: 12px;
     border-top: 1px solid rgba(148, 163, 184, 0.12);
+    max-height: 120px;
+    opacity: 1;
 }
 
 .fax-form {
@@ -397,6 +463,19 @@ body {
     .controls-top,
     .results-header {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .primary-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
 
