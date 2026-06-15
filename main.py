@@ -6,9 +6,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import uvicorn
-import math
-
-from kakao_api import geocode_address
 
 app = FastAPI(
     title="Pharmacy REST API",
@@ -97,32 +94,28 @@ def search_pharmacies(keyword: str = Query(..., description="Pharmacy name or ad
 
 @app.get("/api/pharmacies/nearby", response_model=List[PharmacyResponse])
 def get_nearby_pharmacies(
-    address: str = Query(..., description="Address to search near"),
+    lat: float = Query(..., description="Latitude of the current location"),
+    lon: float = Query(..., description="Longitude of the current location"),
     radius: float = Query(1.0, description="Search radius in kilometers")
 ):
-    """Find pharmacies near a specific address using Kakao API for geocoding."""
-    lon, lat = geocode_address(address)
-    
-    if lon is None or lat is None:
-        raise HTTPException(status_code=400, detail="Could not geocode the provided address.")
-    
+    """Find pharmacies near the supplied coordinates using the local database."""
+    if not math.isfinite(lat) or not math.isfinite(lon):
+        raise HTTPException(status_code=400, detail="Latitude and longitude must be valid numbers.")
+
     conn = get_db_connection()
     cursor = conn.cursor()
-    
-    # Query pharmacies and calculate distance. SQLite custom function haversine is used.
-    # Note: We query all and filter, or we could do a rough bounding box first.
-    # For ~25k rows, calculating haversine for all might be acceptable in SQLite.
+
     query = """
-        SELECT *, haversine(?, ?, lat, lon) as distance_km
+        SELECT *, haversine(?, ?, lat, lon) AS distance_km
         FROM pharmacies
-        WHERE distance_km <= ?
+        WHERE haversine(?, ?, lat, lon) <= ?
         ORDER BY distance_km ASC
         LIMIT 50
     """
-    cursor.execute(query, (lat, lon, radius))
+    cursor.execute(query, (lat, lon, lat, lon, radius))
     rows = cursor.fetchall()
     conn.close()
-    
+
     return [dict(row) for row in rows]
 
 @app.patch("/api/pharmacies/{pharmacy_id}/fax")
@@ -152,5 +145,5 @@ def update_fax_number(
 
 if __name__ == "__main__":
     # Start the server on port 3008 as agreed
-    uvicorn.run("main:app", host="localhost", port=3008, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=3008, reload=True)
     

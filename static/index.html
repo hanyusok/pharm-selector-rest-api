@@ -3,62 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharmacy Locator - Premium Edition</title>
+    <title>Pharmacy Finder</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="icon" type="image/png" href="/static/favicon.png">
-    <!-- Kakao Map SDK -->
-    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=80f26a55a496db9a8320511b82d02f63&libraries=services"></script>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar -->
+    <div class="app-shell">
         <aside class="sidebar">
             <header class="header">
-                <h1>Pharmacy Locator</h1>
-                <p>Find pharmacies and crowdsource fax numbers.</p>
+                <p class="eyebrow">Pharmacy locator</p>
+                <h1>Find pharmacies quickly</h1>
+                <p class="subcopy">Browse the local database, search by name or address, or use your current location for nearby results.</p>
             </header>
-            
-            <div class="search-section">
-                <div class="tabs">
-                    <button class="tab-btn active" data-type="nearby">Nearby (Address)</button>
-                    <button class="tab-btn" data-type="keyword">Keyword Search</button>
+
+            <section class="search-section">
+                <div class="tabs" aria-label="Search modes">
+                    <button class="tab-btn active" data-type="list">List</button>
+                    <button class="tab-btn" data-type="search">Search</button>
+                    <button class="tab-btn" data-type="nearby">Nearby</button>
                 </div>
-                
+
                 <form id="search-form" class="search-form">
-                    <input type="text" id="search-input" placeholder="Enter an address (e.g. 지곡면)" required autocomplete="off">
-                    <button type="submit" class="primary-btn">
-                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="search-input" placeholder="Browse all pharmacies" autocomplete="off">
+                    <button type="submit" class="primary-btn" aria-label="Search pharmacies">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                     </button>
                 </form>
-                
-                <div class="status-message" id="status-message"></div>
-            </div>
 
-            <div class="results-container" id="results-list">
-                <!-- Pharmacy items will be injected here by JS -->
-            </div>
+                <div class="status-message" id="status-message">Loading pharmacies...</div>
+            </section>
+
+            <div class="results-container" id="results-list"></div>
         </aside>
 
-        <!-- Main Map Area -->
-        <main class="map-container">
-            <div id="map" style="width:100%;height:100%;"></div>
-            <div id="map-error-placeholder" class="map-error-placeholder" style="display: none;">
-                <div class="error-message-content">
-                    <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="error-icon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                    <h3>Kakao Maps SDK Load Error</h3>
-                    <p>The map could not be initialized. This usually happens if the current domain (e.g. <code>http://localhost:3008</code>) is not registered in the Kakao Developers console.</p>
-                    <div class="steps-box">
-                        <strong>To fix this:</strong>
-                        <ol>
-                            <li>Log in to <a href="https://developers.kakao.com/" target="_blank" rel="noopener noreferrer">Kakao Developers</a>.</li>
-                            <li>Go to <strong>My Application > Platform > Web</strong>.</li>
-                            <li>Register <code>http://localhost:3008</code> in the Web site domains list.</li>
-                        </ol>
-                    </div>
-                    <p class="fallback-note">Showing list results below without the map visual.</p>
-                </div>
-            </div>
+        <main class="content-panel">
+            <section class="guide-card">
+                <h2>What you can do</h2>
+                <ul class="feature-list">
+                    <li>List pharmacies from the local database.</li>
+                    <li>Search by pharmacy name or address.</li>
+                    <li>Use your location for nearby pharmacy results.</li>
+                </ul>
+            </section>
+
+            <section class="guide-card accent-card">
+                <h2>Current mode</h2>
+                <p id="mode-hint">Listing mode shows the latest pharmacies from the database.</p>
+            </section>
+
+            <section class="guide-card">
+                <h2>Quick tips</h2>
+                <p>Switch to Nearby to ask for browser location access, then the app will calculate pharmacies within 5 km of your position.</p>
+            </section>
         </main>
     </div>
 
