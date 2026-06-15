@@ -145,5 +145,5 @@ def update_fax_number(
 
 if __name__ == "__main__":
     # Start the server on port 3008 as agreed
-    uvicorn.run("main:app", host="localhost", port=3008, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=3008, reload=True)
     
