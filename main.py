@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import math
 from typing import List, Optional
@@ -7,22 +8,26 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import uvicorn
 
+# Get the directory of the current script (main.py)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+DB_PATH = os.path.join(BASE_DIR, "pharmacy.db")
+
 app = FastAPI(
     title="Pharmacy REST API",
     description="API for finding and managing pharmacy data."
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 @app.get("/")
 def read_root():
-    return FileResponse("static/index.html")
+    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
 @app.get("/favicon.ico", include_in_schema=False)
 def favicon():
-    return FileResponse("static/favicon.png")
+    return FileResponse(os.path.join(STATIC_DIR, "favicon.png"))
 
-DB_PATH = 'pharmacy.db'
 
 # Haversine formula to calculate distance between two lat/lon points
 def haversine(lat1, lon1, lat2, lon2):
